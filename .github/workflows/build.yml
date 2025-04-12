@@ -78,6 +78,13 @@ jobs:
         shell: pwsh
         run: ./Parse-Rustflags.ps1 ${{ matrix.rustflags }}
 
+      - name: Patch windows lsp path
+        working-directory: zed
+        shell: pwsh
+        run: |
+          curl -o win.diff https://gist.githubusercontent.com/d1y/2961904580cb97d565db3e415e4eb6f2/raw/073a90d3f3032a301f55e4d6c70448af4a4530df/fix_windows_lsp_path.diff
+          git apply win.diff
+
       - name: Build release
         working-directory: zed
         run: cargo build --release
